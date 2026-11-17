@@ -220,11 +220,35 @@
     </div>
 
     <div class="row">
-      <div class="m"><p>In progress. The subject of the paper.</p></div>
+      <div class="m"><p>The idea of the paper</p></div>
       <div class="c">
-        <h4>Whether a stored value is right</h4>
+        <h4>Checks that borrow their inputs</h4>
         <p>A check against the source has a blind spot. It passes any error that the source itself contains: a unit printed wrongly in the paper, or a number quoted from another specimen's row. To see those, a check has to compare the value with something outside the passage.</p>
-        <p>So I built a knowledge graph from the database, by rules alone, and ten checks that run over it. They compare each value with physical bounds from composite mechanics and with what other papers report for the same material, and every flag cites the rows it used. How much these checks catch, measured on planted errors and against manufacturers' data sheets, is in the paper.</p>
+        <p>Composite mechanics offers such comparisons, because a composite's stiffness, strength and density are tied to those of its fiber and matrix. But a paper rarely reports every input. Only 2.6% of the composite moduli in the database come with their own paper's fiber and matrix moduli.</p>
+        <p>So the checks borrow. A knowledge graph, rebuilt from the database by rules alone, links each value to its material, fiber, matrix and grade. A check takes the inputs a paper lacks from other papers' verified records of the same constituents, and every flag cites the rows it used. There are four physical relations (a rule-of-mixtures bound on modulus, a density rule of mixtures, a strength cap, and the identity between weight and volume fraction) and a consensus check across papers. Borrowing lets each relation test 4.4 to 11 times as many values.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="m"><p>31,638 planted errors whose source agrees with the wrong value. Results of the draft of 16&nbsp;Nov&nbsp;2026.</p></div>
+      <div class="c">
+        <h4>What they catch</h4>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th scope="col">Method</th><th scope="col">Planted errors caught</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Searching for the value in its source</th><td class="num">1%</td></tr>
+              <tr><th scope="row">A language model re-reading the quotation</th><td class="num">12 to 15%</td></tr>
+              <tr><th scope="row">Modulus bound, inputs from the same paper only</th><td class="num">7%</td></tr>
+              <tr class="now"><th scope="row">Modulus bound with borrowed inputs</th><td class="num">46%</td></tr>
+              <tr class="now"><th scope="row">Consensus across papers</th><td class="num">57%</td></tr>
+              <tr><th scope="row">A language model judging from its own knowledge</th><td class="num">65 to 72%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="fine">The bounds are scored on composite tensile moduli and consensus on values compared across papers. The two language-model rows give both.</p>
+        <p>The language-model judge catches the most, but it rejects 10.5% of correct values and cites no evidence. Every flag from the graph names the papers and the rows it used.</p>
+        <p>Manufacturers' data sheets give an outside reference. Of 602 fiber values for named Toray and Hexcel grades, from 193 papers, 80% are within 10% of the manufacturer's number. Of the values the graph flags, 65% are more than 30% off, against 7% of the rest.</p>
         <p>A blind human audit of 260 stored values is under way to measure correctness directly.</p>
       </div>
     </div>
@@ -232,10 +256,10 @@
 
   <div class="project">
     <div class="row">
-      <div class="m"><p>Ph.D. thesis</p><p>Defended at my preliminary exam, Aug&nbsp;2026</p></div>
+      <div class="m"><p>Ph.D. thesis</p><p>Preliminary exam defended Aug&nbsp;2026</p><p><a href="https://github.com/mathheider/manufacturing-intelligence-pipeline">Code, rules and results on GitHub</a></p></div>
       <div class="c">
         <h3>Manufacturing Intelligence Pipeline</h3>
-        <p>Choosing how to make a polymer-composite part (injection molding, compression molding, thermoforming, filament winding and 13 other processes) is an expert decision governed by constraints. The pipeline makes that decision from an image and shows its reasons. A vision-language model (VLM) only perceives. A rule engine decides, from rules that are each cited to a textbook or paper.</p>
+        <p>Choosing how to make a polymer-composite part (injection molding, compression molding, thermoforming, filament winding and 13 other processes) is an expert decision governed by constraints. The pipeline makes that decision from a photo and shows its reasons. A vision-language model (VLM) reads the part. A rule engine, written from manufacturing textbooks and papers, turns what the model read into a ranking of the processes and lists the rules that moved each one up or down.</p>
       </div>
     </div>
 
@@ -244,52 +268,75 @@
       <div class="c">
         <ol class="steps">
           <li><b>Detect and segment</b> every component in a photo of a vehicle.</li>
-          <li><b>Perceive.</b> The VLM answers a fixed list of questions about each part: is it hollow, does it have ribs, are there undercuts, what is the production volume.</li>
-          <li><b>Decide.</b> The rule engine turns the answers into a ranking of the 17 processes.</li>
+          <li><b>Perceive.</b> The VLM answers a fixed list of questions about each part: is it hollow, does it have ribs, are there undercuts, what is the production volume. It also gives its own shortlist of eight processes.</li>
+          <li><b>Decide.</b> The rule engine combines the answers and the shortlist into a ranking of the 17 processes.</li>
           <li><b>Explain.</b> Each result lists the observations and the cited rules behind it, so a person can check the reasoning.</li>
         </ol>
       </div>
     </div>
 
     <div class="row">
-      <div class="m"><p>Seeded benchmark: 1,000 instances built from 14 expert-labeled components, with simulated perception noise</p></div>
+      <div class="m"><p>100 held-out photos, scored once in Oct&nbsp;2026. Every setting was chosen on 535 development photos and frozen first. Labels are by part type; labels for each photo are in progress.</p></div>
       <div class="c">
-        <h4>What I defended</h4>
-        <p>Asked directly, a VLM over-weights the most common process. In my first study the model scored injection molding at 217 where a survey of domain experts gave 98, while its second choice matched theirs (57 against 54). Retrieval changed its explanations but not its answers.</p>
-        <p>On the seeded benchmark, on the hard cases where injection molding is not the answer, a direct classifier with that bias scores F1 0.136. The pipeline scores 0.385 and recovers about 75% of what the rules achieve with perfect perception (0.510).</p>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="m"><p>150 openly licensed photos, then 635 with a preregistered protocol. Aug&nbsp;2026.</p></div>
-      <div class="c">
-        <h4>Then real photos</h4>
-        <p>On real photos the result inverted. The VLM ranked well on its own (F1 0.334 on the hard cases and 0.510 overall), and elimination by rules collapsed (0.086 on the hard cases). The record of observations showed where: 84% of the false eliminations came from two yes/no questions, whether the part is hollow (58%) and whether it needs continuous fiber (26%).</p>
-        <p>I reworded the hollow question and preregistered the rerun on 635 photos, with the line that would count as success written down first. The pipeline rose from 0.086 to 0.198 (95% confidence interval 0.176 to 0.223). That is a real improvement, and it is still under the 0.20 line I had set. So I changed the design.</p>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="m"><p>100 held-out photos, scored once in Oct&nbsp;2026. Every setting was chosen on 535 development photos and frozen first. Labels are by part type; labels for each photo are pending.</p></div>
-      <div class="c">
-        <h4>Rules as evidence</h4>
-        <p>In the first design every rule was a veto, so one misread feature deleted the right answer. On a wound composite tube the VLM reported ribs, probably the winding bands, and the no-ribs rules removed both correct processes.</p>
-        <p>I rewrote the engine so that rules are evidence: each one moves a process up or down the ranking, and nothing is deleted. The rule base grew from 92 to 564 cited rules. I tested every rule I could against the development photos, and 142 point the right way.</p>
+        <h4>Where it stands</h4>
+        <p>The benchmark is 635 openly licensed photos of real parts in 41 part categories. A part usually has about two correct processes. On the held-out photos the current design ranks a correct process first for 73% of photos and keeps every correct process in its top 8 for 88%. The first design reached 19% and 11%.</p>
         <div class="tablewrap">
           <table>
             <thead>
-              <tr><th scope="col">Method</th><th scope="col">Top pick correct</th><th scope="col">Every correct process in the top 8</th></tr>
+              <tr><th scope="col">Method</th><th scope="col">Top pick correct</th><th scope="col">All correct in top&nbsp;3</th><th scope="col">All correct in top&nbsp;8</th></tr>
             </thead>
             <tbody>
-              <tr><th scope="row">First design: rules as vetoes</th><td class="num">19%</td><td class="num">11%</td></tr>
-              <tr><th scope="row">Guessing the most common processes</th><td class="num">58%</td><td class="num">56%</td></tr>
-              <tr><th scope="row">VLM alone</th><td class="num">74%</td><td class="num">88%</td></tr>
-              <tr class="now"><th scope="row">Rules as evidence, all 564, with the VLM</th><td class="num">73%</td><td class="num">88%</td></tr>
-              <tr class="now"><th scope="row">Rules as evidence, the 142 tested on photos, with the VLM</th><td class="num">72%</td><td class="num">90%</td></tr>
+              <tr><th scope="row">Guessing the most common processes, without the photo</th><td class="num">58%</td><td class="num">28%</td><td class="num">56%</td></tr>
+              <tr><th scope="row">First design: 92 rules as vetoes</th><td class="num">19%</td><td class="num">5%</td><td class="num">11%</td></tr>
+              <tr><th scope="row">VLM alone</th><td class="num">74%</td><td class="num">47%</td><td class="num">88%</td></tr>
+              <tr class="now"><th scope="row">Rules as evidence, all 564, with the VLM</th><td class="num">73%</td><td class="num">48%</td><td class="num">88%</td></tr>
+              <tr class="now"><th scope="row">Rules as evidence, the 142 checked on photos, with the VLM</th><td class="num">72%</td><td class="num">45%</td><td class="num">90%</td></tr>
+              <tr><th scope="row">The 142 checked rules alone, without the VLM's shortlist</th><td class="num">36%</td><td class="num">39%</td><td class="num">70%</td></tr>
             </tbody>
           </table>
         </div>
-        <p>The rule engine is back at the level of the VLM, and it adds what the VLM cannot give: a cited reason for every ranking. It is not ahead yet. With 100 photos, the differences at the top are within noise.</p>
+        <p>In the first design every rule was a veto, so one misread feature deleted the right answer. On 11 of 16 wound composite tubes the VLM reported ribs, probably the winding bands, and the no-ribs rules removed both correct processes. I rewrote the engine so that rules are evidence: each one moves a process up or down the ranking, and nothing is deleted. The rule base grew from 92 to 564 cited rules. I checked every rule I could against the development photos, and 142 point the right way.</p>
+        <p>The rule engine is now level with the VLM on the top pick, and it adds what the VLM cannot give: the rules behind every ranking. With 100 photos, differences of a few points are within noise.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="m"><p>Cross-validation on the 535 development photos, Oct&nbsp;2026. Every photo is scored by a model that never saw it. The held-out photos have not been scored with this model yet.</p></div>
+      <div class="c">
+        <h4>Learning how far to trust each observation</h4>
+        <p>Hand-set weights treat every observation as equally reliable, and they are not. The VLM's guess of production volume is useful. Its reading of wall thickness points the wrong way. So I let the development photos set one trust number for each perceived feature, about 22 learned numbers in all, while every rule keeps the direction it was written with.</p>
+        <div class="tablewrap">
+          <table>
+            <thead>
+              <tr><th scope="col">Model</th><th scope="col">Top pick correct</th><th scope="col">All correct in top&nbsp;3</th><th scope="col">All correct in top&nbsp;8</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">VLM alone</th><td class="num">77.0%</td><td class="num">55.1%</td><td class="num">88.2%</td></tr>
+              <tr class="now"><th scope="row">Learned trust per feature, new photos</th><td class="num">77.6%</td><td class="num">57.2%</td><td class="num">91.2%</td></tr>
+              <tr class="now"><th scope="row">Learned trust per feature, part types never seen in training</th><td class="num">77.4%</td><td class="num">57.0%</td><td class="num">90.8%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>This version is ahead of the VLM alone at keeping every correct process in the top 8: by 3.0 points on new photos (95% range 1.1 to 4.9) and by 2.6 points on part types it never saw (0.9 to 4.5). The top pick does not change. Giving every rule its own weight looked better on familiar parts and worse on unseen ones, which is memorizing part types, so I froze the simpler model.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="m"><p>SmolVLM-256M with LoRA, trained on a CPU, Oct&nbsp;2026. The same 100 held-out photos, scored once.</p></div>
+      <div class="c">
+        <h4>A small open model, fine-tuned</h4>
+        <p>I also fine-tuned a small open model on the development photos. On the held-out photos every correct process is in its top 8 for 73% of photos, against 40% for the same model without fine-tuning, and in its top 3 for 43% against 29%. Its top pick did not improve: it answers injection molding for 88 of the 100 photos. On part types it never saw, it is no better than guessing, and the much larger Gemini model still leads at 88%. Fine-tuning taught the small model which processes go together. It did not teach it to see them.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="m"><p>Simulation, Jul&nbsp;2026. 150 photos, then 635 with a preregistered protocol, Aug&nbsp;2026. Audit of the metric, Sep&nbsp;2026.</p></div>
+      <div class="c">
+        <h4>How the design got here</h4>
+        <p>I defended the first design at my preliminary exam. On a seeded benchmark of 1,000 instances, built from 14 expert-labeled components with simulated perception noise, it scored F1 0.385 on the hard cases, where injection molding is not the only answer. A simulated direct classifier with the model's bias scored 0.136, and the rules with perfect perception 0.510.</p>
+        <p>On real photos the result inverted. On the first 150 photos the vetoes collapsed to 0.086, and the record of observations showed where: 84% of the wrong eliminations came from two yes/no questions, whether the part is hollow (58%) and whether it needs continuous fiber (26%). I reworded the hollow question and preregistered the rerun on 635 photos, with the line that would count as success written down first. The pipeline rose to 0.198 (95% confidence interval 0.176 to 0.223). That is a real improvement, and it is under the 0.20 line I had set, so I reported it as a miss and changed the design.</p>
+        <p>Then I audited the metric. A predictor that always answers injection molding scores F1 0.555 on all 635 photos, so the number had no floor. I replaced it with the plain percentages above, always next to a guessing baseline.</p>
+        <p>The same runs show the model's bias. Asked for one answer, the VLM named injection molding for 71% of 150 photos, where surveyed experts chose it in 24% of their picks. Its shortlist of eight still held every correct process for 133 of the 150.</p>
       </div>
     </div>
 
@@ -298,8 +345,7 @@
       <div class="c">
         <h4>What comes next</h4>
         <p>More rules stopped helping because the questions were the weak point. The VLM said “continuous fiber” for 86% of injection-molded parts, which a photo cannot show, and when asked twice whether a part is hollow it changed its answer on 47% of photos.</p>
-        <p>The follow-up asks about marks a camera can see: a pinch-off seam means blow molding, layer lines mean 3D printing, ejector-pin marks mean injection molding. I set the bar before collecting any data: every correct process in the top 3 on at least 52% of held-out photos, against 47% for the VLM alone.</p>
-        <p>I also fine-tuned a small open model, SmolVLM-256M with LoRA, on the development photos. On the held-out photos every correct process is in its top 8 for 73% of photos, against 40% for the same model without fine-tuning. Its top pick did not improve, and the much larger Gemini model still leads at 88%.</p>
+        <p>The follow-up asks about marks a camera can see: a pinch-off seam means blow molding, layer lines mean 3D printing, ejector-pin marks mean injection molding. I set the bar before collecting any data: every correct process in the top 3 on at least 52% of held-out photos, against 47% for the VLM alone. Labels for each photo, instead of each part type, are being added to the held-out set.</p>
         <p>Beyond this, I am starting to extend the pipeline to inverse design: inferring the manufacturing process from a material's microstructure.</p>
       </div>
     </div>
