@@ -1,206 +1,499 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Mathias Heider</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/styles.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mathias Heider</title>
+<meta name="description" content="Mathias Heider is a Ph.D. candidate in Computer Science at the University of Delaware. He builds vision-language and LLM-agent systems for manufacturing and materials, and the tests that show where they fail.">
+<meta property="og:title" content="Mathias Heider">
+<meta property="og:description" content="Ph.D. candidate in Computer Science, University of Delaware. Vision-language models, LLM agents and evaluation for manufacturing and materials.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mathheider.github.io/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231b4b7a'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='16' font-weight='700' fill='%23fff' text-anchor='middle'%3EMH%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,600&display=swap" rel="stylesheet">
+<style>
+  /* Layout: a margin column and a text column. The margin holds what a reader needs to judge a claim:
+     the date, the sample, how it was scored. On a phone the margin note sits above its text. */
+  :root {
+    --paper: #fbfcfd; --surface: #ffffff; --ink: #1b2026; --muted: #56616c; --accent: #1b4b7a;
+    --rule: #d5dee8; --wash: #eef3f8;
+    --serif: "Source Serif 4", "Source Serif Pro", Georgia, serif;
+    --sans: "Source Sans 3", "Source Sans Pro", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --margin: 172px; --gap: 34px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --paper: #10151b; --surface: #161d25; --ink: #e6ebf0; --muted: #9aa7b4; --accent: #8fbdea;
+            --rule: #2a3542; --wash: #1a232d; }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.6 var(--sans); }
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  a:hover { text-decoration-thickness: 2px; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+  p { margin: 0 0 12px; }
+  .page { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+  /* the two columns */
+  .row { display: grid; grid-template-columns: var(--margin) minmax(0, 1fr); column-gap: var(--gap); margin: 0 0 22px; }
+  .row > .m { color: var(--muted); font-size: 14.5px; line-height: 1.45; padding-top: 4px; text-align: right; }
+  .row > .m p { margin: 0 0 6px; }
+  .row > .c > :last-child { margin-bottom: 0; }
+
+  /* header */
+  header.top { padding: 54px 0 8px; }
+  header.top .row { align-items: center; margin-bottom: 18px; }
+  .avatar { justify-self: end; width: 124px; height: 124px; border-radius: 50%; border: 1px solid var(--rule);
+            background: var(--wash) url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJST/2wBDAQYGBgkICREJCREkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCT/wAARCADwAPADASIAAhEBAxEB/8QAHAAAAgIDAQEAAAAAAAAAAAAAAQIAAwQGBwUI/8QAQBAAAQMCBAUCAwUFBwMFAAAAAQACAwQRBRIhMQYTQVFhB3EigZEUMkKhsQgVUsHRIzNDYnKi4WOS8BYXJILx/8QAGgEBAAMBAQEAAAAAAAAAAAAAAAECBAMFBv/EACIRAAICAgMBAAMBAQAAAAAAAAABAhEDBBIhMUETIjJRYf/aAAwDAQACEQMRAD8A2rKELaq3LcIZbL6xM+eEyhTKE+VENtsosCWsFLX2T5SplKASyNimyo2CAQNuUctuqcBS10sCAW0CmWyfLqjlQFeXqoG9QrMtt1Mp7IBMpRDU+QgbqZQUAlgjksnLLqZLoCsNUyhWZdFMiWCvKFMqtDbKWKAry3UyKwBTLqpsFeRQDorLKAd1FgTJ9UbJ8qltFNgrylGye19FMlksFdipYpraKEWKrZYS1lE9ieimXwlgUDVGycDRS3hAJbVHKny+FLIRQimVPl8KWKkihNlLKwtQ8WUWBcqJA7pgNEdEsUIpayfTspZBQu6hACa2qiWBbKWKZRLAtjdS2ibdGxSwJYo20TWKlksCAI2TFvZEBLAqlk6FksC2RsU1lAEsFZahlvunARsoLCZVMqbKjlQCBqNk1kbX6IRQgClk+XwpZCRbFSxTWKICAS2iICcBSwQCZb9EMqssoQgEICIb2CfLpspbwgEt4Ut4T28KW8IBLeFMvhPbsiAoshory+EcqayICkUJlUyp8typbwhNCWUI2T/JEAdlFkUJl0UyqyylksUJl0Uy6J7KZUsUU2UG6e1iio5F6Et5RsEcqNksC5fClk1lPCWRQLKAEo2TW0UWSJYqAJrI2CmxQltVLJ7BENFlFgSylvCYBTZLAtiiRZFG11IFAupb6qBw9kAfi3vdAENUt5TKAXKiwABS3hPZQBLAgCJBsmt4Ry6JYKw1MGprI2SxQtkLX6bJwAiAlkUIW3CgabJ7AIhLFFAbqpl8J7a6Iqpeiu3hSysIQDUFC28IWVttPZDLfZBQvTZEW7IgdyoQhALIWTAKWQC21RssSvxWiwyJ0tXUNhawZjfcDvZcu4y9a+UH0nD8bXO6zPFz+W3tuueTLGHrLwxym6idQxDFaLCoXT1k7IWNFyXbf8Bcu4p9fsMw58kOD0JxCVosJXvyxNPXa5d8lxvHsZrsbqX1OI1slQ9x+5mOT2AXhT5i65+iw5NyT6h0bI6qX9dnQcV9duL8QzNgqaegYdP/AI0dj/3G5XiYP6h47huI1Faa+aaSqAZMXvzOc0dGl18p82WrBpykm3sldsszzzb7Z3WOK8Rv9H608UUDh9mqW5SNRP8A2jb9wDsti4e/aDxanqj+/aSGtpnbCnaI3x9yP4vYkLjuxudUQ87K62Mi+lXhg/h9a8PeqXCfEs0dNS4oyGokHwwVDTG6/a50J+a20FpFwQR3BXxJFO5pBa4hwIIINiD3C7z6VergxAx4Lj0jRUgBsFU7/F8O8+Vrw7fJ1Iy5dbiridkAuiBZCNwe0FpuD1CcDVbTKBS3lPlCmUKLAgRtfwmy9lLJYAQgBZOGo5UsCWv0Ut4T2AUsEsFOVQDXqrAEMqgtQltUQE2VTKUsUL3R6I5VMpQULZFHKVMqWKBbwqqqeGlp5J55GxRRtL3vcbBrRuSVcB3Wi+s9SaXgiqfmswua0i5AcSbAab/8Ks5cU5EwjyaRyT1F9Rp+Kq18NHmiwxrssUQBaZrfjf1t2C0ksdIMrWhpdqf/ADuSiZDyjcjmkfQbkqsV5pImHLeQG+ovqOq8Sc3N2z1oRUVSIIY4pbZs8p2Fvuj3VEtJGC573sLgdI2Kmnq3cwkuuTq51rn5L0mStkY0EsjFrkkD6BVLenlNYQ67mZv8v6KlzHb6aaX7r2GxxSvLm6NsSD3A3P6rCnYf4S3NqABr/wAIKMB+gtuUguXbaLKNMcheNbdtlTlCmyKBezlfTTOjeCDYjW/ZY9rm5OiOY6WGtwpsg+h/R/1NkxAMwTF5s9Q0ZaeVx+KQDdp7kbg9V2FhDhcEH2XxjgdXLSYhHLBK6OUESMLTYhw10X1jwXxAOIsEgrdOYWN5jfJG48b/AEXo6uZyXFmLYxJfsjYLKWTgKW0WuzNQrRrqmyhQBHVBQAAELJtUbaJYoTKVMhVg0CNvCWKMdRTohdRZIUT0QKAOqgBsooXEKEoA6FSwsgN0boCEabLkH7RlXJDw/hkLZCGSVeZzb/eytNvp/Rdezar56/aLxOebHqGheHCmgpnSM+G15HGx166ALhsyrGzrgVzRzWhdG2ldNLc8z4Rr0XlVU4kIAGwITCS9MxocRa9/AusVzSczuy8o9JjtJBcQLAeUQ8k2LtBpdQQvEHOOjCQB5P8A4CrKejmqDljjNyfvHYWFyhKLTVuAyDMLgAnqW9h4VkIkq5BckA7WNh7L0eEuEq/i/FmYfh0T35rF8hacrG9XHsOy79S8BcG8E0kdPLTyYnicjRG28Ye4vPVrdgPfZcsmVRNGHXlk7+HAf3PUGlzxxBrA0ufO/Rlgen6eV5U8LYi1w2OwvcnyuqcUcP4jXYs+hpmRxMc8BrGvOXbqdAAANgF59bwjS4W0Ujaeoqal1hLMxgc6/wDCwbDTqeiqsq+lnrnNxFzLXFgNgq3RlkWY2uTotnxOiEJdG/DnUz7ktDnXIHnyvGr6TlsYwAnKB+eq7J2ZpQoxftHKMLmuN22PzX0H+z7xLBXUdbhGZ3Opjzo7nR0Tjq0f6Xa/NfO8kZa1vUHQ+Cui+gsksXHlKYw/lPjfHK4DRlxduvTULvrtqaM+aNwdn1R0UsoNuyN9F6x5xAPCNlLqXQERQuoDqgCPKbog46KAFAYqmiS5RzagqtlqGKCUm6lzZLJoYnyokTBxCciKGGihS5tfCJcnIUHovnX1+ouZxTHK6Vzs0IDWnZgHb5novoe5XB/XukMOMUtYRJkey1z90EdvKzbLuB311UzkRoHRx57htjpf8R7AL0Kjhqohwh1YWOvUPaGWGgtcn+SwmTMnrYmvmbFE03c550t1XTK+rZjmBR0OE4rQ0k8QzAzOs5zcpJaARuTbXwvKm2qo9SEU7PBwrg+hlniq8S5stJExjIaaK45gaNXO7Am+yyOOOJqOamp8LwzBaKgp2Ah5ijsZewJv90bnuV7zqOPBsPpqnNUTxPpmOlk51zJdo+G19R0sBZYn/qPEhTmHCOFaDlSbvlp2aDwT0+S4qfJ2afxuMa8MThT1FouGMPZQUFBJESc00+cEyv7mw27BbxgWOyYzI/EIYznf959i53tf+S0Gj4erMVmtIzDqeZ3+HC8WHu3+i2Ph7gmeq4up8Boq18UzaYmofBWSRwtcCTmIjILjawsCN1SfBv8A6dsUsi6+DcT4zJhcjqt7HZhoDqNL9z8lqB48xiaXl0NHle/8QaS4391m8VcJVuDcT/uqeubI+rcMksr3uDLEg/eLiLkjqln4VpqO5OPzQaacmmLj8zcW9leKijnOU5SfwwKyHiAwzT4jRywyTCxkmaAbdLG+i1x7ZY2l1R93bPuPyXs1FBVl2SmxGeseTYB1xm+pKrm4exKnp5ftdI+APjJ1tqNDuu0ZIzZItmt1dO6F7XOa4RyfdJBsSP6LqP7PLIDxPUNmpc4MNmSh1jE4G/zutBxStmgoo8Pe4S0j7ua1wF4nA7tP6hdM/Z+wiVvENXUSszNihaWuB0IJ0NuxA/JasH9Ix5v5dn0GCiLJAQEcy9JSPPoa/ZG6rzIjZOQos07hS47pFE5Ci3MFMwVQKN+qchRiZ9bWUzKm5RDu6qSW5kM10l0AdVNgsvZHMqidVMwUAtzI3VYcoXaICzMFpXqvgMOO8NkP0kjeMhtfU6af16brcM1tVXUQsqoJIpG5mSNLSO4Isomri0Wg6aZ8m4hgeGYbizIKYy1IikEcjpT99wdYloGzd102r4KwrHh/ZXoZ+kkQ+Hbq3+llg476fOwKhxLFw9sgheySmve47sPe7nW+S2PCJgycNykGw0cLEf0IXzs8jfaZ9PjwKMqkvTM4Xw/EMAppMJrGQyQyvHKkOrAA0BwAO19Dr3V1f6b0DAal8UkkUvxB0Uxyn3A29l6dXS1dbRRPo6yKCZsn+MzM0tIsdLHVVz1M+E0D4puIaV0gGZzG0DMv0vf81wXbv6beCSpI8mn4cw7C2OdR0zQ7o5zuvgdVsfBnD8WH4tU4vG1jX1s4AANyWgAH/cNPZc/wzi3GcYxr7FHUww4aJAyqxGmpA0xNPS5vlPkd7rfZeKcDwSSmjwqZrooWgNZmzbdyevVJp+DCot2an6n4XFNxkw1Dv7kgtd1uDrf+vhX0eDNxaS8kBF/iLrWv7EbrxuOuNKHFMWZNVhr45JWukYLWa2+tyF4UONM/fDnYNLXOw9rebUUlPUujbqSNAD+Q3XVJ8UcJOKmzoWK4JR4dA/k0s1w25eWWA+ZK57j9dBStqGwTB7XjLyHG9r/eOlwF71RxHhOMUoaylpZIbfee0ud7EuJK0fiBlBHPeiaYb/eiBu33HZXxpWctmq6NdxqJhZA8D4Q82+i+iPRbDhHwbQ4i+PLNMxzWO7x5jYe1xfxr3Xz/AFML659LQwtzyzOIYP8AMSAP1X1hgeFR4Fg1DhcOrKOBkIPcgan5m5Xq6qt2eHtNKJ6Vwje2irujcLaYR1AbJLhFAPmKlykuUboBwVLpLooDz1FFEAbo3SqIAk6KDcIIg2QDKJSSjdAFQGyF1LoDHnZnaaeKjhqnve1/LleGi19XC+l2mxt5WocY4dLhnFktQ4ER1YEsZvcF1gH/AJ/qtyqI5HNbJBII5onZmEi4J7HwVznjPjOrrsco8HxKlZFNE18rHx3LTpqLnwAvB29WcMrlFfqz6PV24ZMKjJ/siupxiSiDmtccrRewXOOK+JJZCIWAmQuJv1JK3OopXVMhlEgyuAFl4eJcLQ1k4ljGWe4Ga+g8+6zQpPs1Tc3Gom++nVBDhHDMVDIWSTSgvqOoc524Pi2nyWl8R+kcNJUS4jgON0lPI34xT1NQA65OzXDW3uqqzgniaN7HUuOunoi4B8Jdy5GN6m2zh7G69vh7gHBaiDnYrjmOttG7OYqR+Rr76atvuEjcW5JifcVFxfRxzFBWirfBXgNljNi3S3vpv7r2OGpYMLD6uSrjZzIyxsQOp16/RbZxJwFhcVHHPhtZiVdUFxLmzQlhDNdS46drLQncOVVfUtjDWxBthZ8gJJ67dFq5KUTDKMoyuj2KOKaslnqqFxayxfKxx63Go97rBllMjsxNytylpKbCuHIsPoms5728t0oG4O5K1g4YH10dLRF07nvEbb7ucTb9VTG02WyRpHo8GUTsR40wGlAGlVESewac5/RfTpOZxPc3Wt8L8B4LwwIainomfvFsQZJUucXOLrfERfa5vstjXtYMThGmeJsZFOXXwdRDMEMy70cRhumO4SZgmDhbdKAUULhS47qAEWTJEzTopoHl8weynMv1WPnSlwCniDKL7BDmbLG5gKGdKBlc0d1OYsUPCmdQDK53cpuZfrosTmC3lTm6IwZRksd7o81YokCOdQDJ5q5tx7wZiWJ4/QYvQNYY4HEzNBOYt6/kSugZ0C8bHW6pkipRpl8cnGSaOS0dQ6Fr4ujbjVW0rOfUgk2ANwAjV0xgq3PteNxPxDoFWXfZ3iSN3zC+dnG/D6bHka9NqkhNVCGZM1vw2vfytZxKi4roeY3A2VfKk+/HHIQ13vqvawriSGLLzw0Eb+VsP/uPTYfE5sboTf2uFwXKLNnKMl7Rx2vwnjeqafteHVDYyLausLfVUUeFVGGsdLUMDCNLBb9jXqPT1bXBrhubkBaFi+JVGKlgDTHENTcauK0QlJ/DLm4p3dlOIYgTGyCI5nHUkHqtw9IsBjrMdlxGdocKBgc1v/UdcA/IAn3stHjYynFzYu7LqHo5JagxV1tTPGCf/rp+v5rbqwTmkeZtTfBnTRJbyjzeyxOdfS6glsvaR45l8091Oae6xOcoJrqQZfNPdESErE5xtZTnFAZuco8wrBExHVPzuoKikRRl8xygld3WJzSdyiJbKSGebzfCnMG6xc+6Oa/VKLF5l7FTmqjMEC8KrQMjm6KCXuscOUD9VNIGTzQpzFj50Q5RQL+YjnKpDl7GE8L4vjID6SjeYj/iyfAz5E7/ACVJNR7ZZRb8R5/M7hCaOZ9HLMxh5TfhMn4QToBfv43XRMI9L4acNlxKoM79+VFowe53P5LTuKMPq66UaNighuIKeIWZEAdNO/c7left78McaX09DT0XllcvEaLieEPbC5zbEW7XstMrC+llMbvceQuqxSNmby5mZHjQgjYrXOKOF4qyLPDZkrdWkbE+V4GLN8Z72TF9Rorpw5twbeyxZf7S+jXe4CSZ76eV8MrTHIw2c12iqdLY+62IzWJKMg3AA6ALEmlsNDc+U9RNcn9FgSSWF7hXicpMMswtut59JcepaSrr6KqqIoeeGPi5jsuZwuCAT1sfyXOpZMxVDnkWsSCNbjotWGfCSkZMy5RaPqAyWsRsRcHujzNL3XDuGOLsUoog+jqj8Hwy08hzRu8gHb5WXQ8M9QMJrmNFWX0Mp0Of4mX8OH8160cikujzJYnE27mX6oiWy86PEoJmB9PKyZn8THAj8kpqjINyFaylHp8wE7qCS17FeW2Z1/vH6p2zOva11LkKPSD/ADqjnXnh53uVOdKwEtdcdnJzJ4noCROJbrzBXP2dGPkVYKwEaNIt3KcijRh/aBfqjzhpo75Kpkz4j8Dy32TfaZSf71+m2qWWLznFvhfr4KdsEj2l2W3v1WJznuPxPcfcpmOJc3MHvYTl+E636KrJSLrPBsQdN03LmLOZk+EmwN1s2F+nuJ4s4ZY3UlMQCJKj759mjX62W64R6Y4VQBjqoOrZW2+KbRv/AGjT63XCWxGJ2WBs5ZQYZX4lJko6SeoP+RhsPc7BbXhXppX1JDq2oZTsP4WDO/8AoF1GOhhgjDI2Na0bNaAGj5BWBwYLBtvks89qT/k7w14r3s1/COAsGwzK80rZpR/iT/GfpsPotlaGDRoAsqGulO5CdrXX1sszm5Ps7KCj4XdFpuPYOYqp5DRypCXtPnqFuDfdV1VLHVxGOQXG4PYrPsYfyRo7a+Z4pWckxfh9sp50bbSdSFqWIRz02bNcC9tBuuw1+FGB5Y8aHYjYrX6/htkziWgXPzC8hxlB0z2o5IzVpnBeLsN/eTA8RAVDB8D2jU+D3C588yxvdG+7XNNiD0X0tivAYnYXFlvLVzDiz00qqjPLQRv+1MFwCLCUdj57LTgzLxmfNifqOYVE1hYm5WBLKTuVlVVLPDK+KaN8cjDZ7XCxaexCxJIid16EUefNsq5nQalM1ulzuiyE9tFmUNA+tnbCzS51PYLql8ODZnYHTWgLsur3Ej22XrMo8jXDLqdbd1t/D/prjmNMhGG4PVOZYZZCzJHbvmdpZbtTegGMvlo2VOJUURl5j5SwF/LaLWttmJvtpZblKMFTZwpvw5Rh8UkAa+F743XuCwkFdE4Fo6viD7Y2qrY2tp6d8kQc3+0qJALiNp0BOnuvf4M9DK6SRlXxBOyCjY/SGE5nzNvvmH3Qfqu3YVhGH4RQRUGHU8dPTwj4GNGx736nyqy2ElUSVhvtnDpuFsYiw6mxF1E8UtRGJA8HNkv0cBsV54hmYwWGZxv8LRew7r6K3dlda5HyIWq8R+nGHYqX1OHgUFZqbsuGOPkDb3CQ2r/orPXXw4+GSDdkl9wA1WinlDAZLRknUHcBZWP4fi+A1wixOnMTnaRvj/u3+WkdfC8yeeZ7TzM7smhuNvdaFL6ceKHLfj0c02J12TNp5TYht83UbLEc8TMDWuAt5SEucAwSOeB+EEmysmUpElLIWhzqqmPhr8xCeAtmLxHKHBpALg0kfVY1RA+Ksc01jXWsc5AaXE/5RfRXfaxRttBVP5kzW3fG+1r/AIdhtonIngj1MPwdmJ1LaWCoeah2jGtj++V1jg709o8EYyqqmR1FfYXlLbtjPZg/nusH0u4VfQ0DcRrInMqZwcoe7MWMJvf3dv7LoVso0WLNlbdJmqEEuxWAA2bYW3TnZU078zpe4eQrSVmOtCdbI2v0UUa8X1QCG7Snbrolebu0TNb1UIsxg1EKKKSgksLJmFj2hzT3Xj1eDuju6E5m/wAJ3XsPkydNEBIx+nVc8mKM/TrjnKHaNTqYsoyOaWnsQvObSMLy4sDtey3mWmZKPiY1w8i6w34TSkaR5fZZJaf+M3Q3FVNHNeLfTLh/jOHNWUxpqsCzaums14/1DZw91xviP0C4lwqRz8OZHjEH4TAcsg92H+V19WDDoBYZdu5WSGRQj4GsafA1XbFCcOr6OWXJCXw+SsB/Z041xhzH1VDFhdOd31UoD7f6RcrtPAXoDgfC0kdXXhmJ1TCC0PZaJh75Tq4+T9F0U1LjIBlsL7u6/JM2qNVWfZY3EMjbmkcO52C0qTMri12HEH5DTUUTsvOJvb+AC5t+SFSwNxChsAAGvH+1I0CbGZZN+TGIx2F9T+gVta62I0IH/UP+1KIRVT/BHJCdmucB7Xv/ADV1PIQAle0Nqg62jmlGNoBv0VaOnwyC0EfF/wDiZrszS0n4wN+4UbqNTqhMMrQ9v4dfl1Vkc2ebilLS4nA6kroGSxO/C4fmOxXMMdwNnDIyTTSPpHvtC8sB3/Cbdf1XW6unFRA7L98DM0+VreMYezH+HpY5AcsjNbalhHUeQdV1xy+FJpHM6ZtFXxNMlTHDAS4PfIMpaQL6G3tt3WHTOwx5e2OsfAWOc1rM1y+wJ0NuoHW2q8qpwySCtkpax7oGwHLdoz3t2F+u4Xox4NDDTtmpWMxGMghzXANfGSeum/YarU0l9OCtvw8uf93wuE8DqeWRxb8Lo3jIepBJN7rZvT/BoOIMbMs8cb4aVwlfZht/lbr51v4WjhxJ0XbvSrBjRcORVDmZZa5xncTvk2aPpr81bMuEPSML5SOgUrQ2MAABWu2Kx23addj+SZ8xh1fq3uvONLRXA61XOy+9nfUK+QkAWWFJKI8TYL2zx2/NZrzdl0JaI3W5sg5gPTVMy4bqhe6ADI7aqwCwQCJ2Qhsiig2UQgqnFwsYjqsp+uhVLm+FFHWL+CCR7djp2QMz7a2QcdbKu9+igvSC+R1tALqnNKSS930TPkDLpMxeLqGXSF/uw6UgEgaK3C6f7LTOmd/eSHO89ykZEZHtbbQHVZ0gOVrG2AGpUx8Kz/wpoY3DmSO+9I+5RqbHEYSfwMd+atidlaAdFQ5pkqXOPsFaznXYJnkzxsFgQ0kogOcy4903LY/mzAm7QQFbE0crL1soomxY5CL630VsUhcC1yqjALSQfvBGA/Fr7JTIfY1I74XMP4HFvyXlYGByK2I6iOedo9rr1ILtqZ2d8rh+i8XCJxT4diNU9w+OqnLSfe38lZFWjnmNVNNTY+2EQ08klTGX2e1pIFwLa+Q6y8qHDHU3PbTOmpzL8LXREkttrtsVj11G+HFOY996uavMbGkWLWCmD2jXYai/kqw4vTwMzyySuksMwDL2PYa9OvyWin6jm6R//9k=") center / cover no-repeat; }
+  h1 { font: 600 46px/1.08 var(--serif); margin: 0 0 12px; letter-spacing: -0.01em; }
+  .lede { font-size: 20px; line-height: 1.45; margin: 0; max-width: 34em; }
+  .contact { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 0; padding: 0; list-style: none; font-weight: 600; }
+  .status { margin: 10px 0 0; }
+  nav.jump { display: flex; flex-wrap: wrap; gap: 4px 20px; margin: 0; padding: 0; list-style: none; font-size: 15.5px; }
+  nav.jump a { color: var(--muted); text-decoration: none; }
+  nav.jump a:hover { color: var(--accent); text-decoration: underline; }
+
+  /* sections */
+  section { padding-top: 6px; }
+  h2 { font: 700 17px/1.3 var(--sans); color: var(--accent); margin: 34px 0 20px; padding-top: 14px;
+       border-top: 1px solid var(--rule); }
+  h3 { font: 600 25px/1.22 var(--serif); margin: 0 0 8px; letter-spacing: -0.005em; }
+  h3.plain { font: 600 19px/1.3 var(--sans); letter-spacing: 0; margin-bottom: 4px; }
+  h3.plain .where { font-weight: 400; color: var(--muted); }
+  h4 { font: 600 17px/1.35 var(--sans); margin: 0 0 6px; }
+  .project { margin-bottom: 14px; }
+  .project + .project { margin-top: 44px; }
+
+  /* a pipeline is a sequence, so its steps are numbered */
+  ol.steps { list-style: none; margin: 4px 0 0; padding: 0; counter-reset: step; }
+  ol.steps li { counter-increment: step; position: relative; padding: 0 0 9px 34px; }
+  ol.steps li::before { content: counter(step); position: absolute; left: 0; top: 2px; width: 22px; height: 22px;
+                        border: 1px solid var(--accent); border-radius: 50%; color: var(--accent);
+                        font: 600 13px/20px var(--sans); text-align: center; font-variant-numeric: tabular-nums; }
+  ol.steps li:not(:last-child)::after { content: ""; position: absolute; left: 10.5px; top: 27px; bottom: 1px;
+                                        border-left: 1px solid var(--rule); }
+  ol.steps b { font-weight: 600; }
+
+  ul.points { margin: 4px 0 0; padding-left: 20px; }
+  ul.points li { margin: 0 0 7px; }
+  ul.points li::marker { color: var(--accent); }
+
+  /* tables instead of charts: a handful of numbers reads best as numbers */
+  .tablewrap { overflow-x: auto; margin: 2px 0 10px; }
+  table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums lining-nums; }
+  th, td { text-align: right; padding: 7px 0 7px 18px; border-bottom: 1px solid var(--rule); vertical-align: baseline; }
+  th:first-child, td:first-child { text-align: left; padding-left: 0; }
+  thead th { font-weight: 600; font-size: 14.5px; color: var(--muted); line-height: 1.3; vertical-align: bottom;
+             border-bottom: 1px solid var(--ink); }
+  tbody th { font-weight: 400; }
+  tr.now th, tr.now td { font-weight: 700; }
+  td.num, th.nw { white-space: nowrap; }
+  .fine { font-size: 15px; color: var(--muted); }
+
+  .plainlist { margin: 0; padding: 0; list-style: none; }
+  .plainlist li { margin: 0 0 6px; }
+  .tight .row { margin-bottom: 12px; }
+
+  footer { margin: 50px 0 44px; padding-top: 16px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 15px; }
+
+  @media (max-width: 760px) {
+    body { font-size: 16.5px; }
+    .page { padding: 0 18px; }
+    .row { display: block; margin-bottom: 20px; }
+    .row > .m { text-align: left; padding-top: 0; margin-bottom: 4px; }
+    .row > .m:empty { display: none; }
+    header.top { padding-top: 30px; }
+    header.top .row { margin-bottom: 14px; }
+    .avatar { width: 96px; height: 96px; margin-bottom: 14px; justify-self: start; }
+    h1 { font-size: 36px; }
+    .lede { font-size: 18px; }
+    h3 { font-size: 22.5px; }
+    th, td { padding-left: 12px; }
+    table { font-size: 15.5px; }
+  }
+</style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #deecf9;">
-        <a class="navbar-brand" href="#">MATHIAS HEIDER</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></sp  an>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarText">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#introduction">About</a>
-            </li>
-            <!-- <li class="nav-item active">
-              <a class="nav-link" href="#experiences">EXPERIENCES</a>
-            </li> -->
-            <li class="nav-item active">
-              <a class="nav-link" href="#projects">Projects</a>
-            </li>
-			<li class="nav-item active">
-				<a class="nav-link" href="#coursework">Coursework</a>
-			</li>
-            <li class="nav-item active">
-              <a class="nav-link" href="https://www.overleaf.com/read/dsjgftxtvpkf" target="_blank">CV</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="https://github.com/mathheider/" target="_blank">GitHub</a>
-              </li>
+<div class="page">
 
-
-            <li class="nav-item active">
-                <a class="nav-link" href="https://crpl.cis.udel.edu/" target="_blank">CRPL</a>
-              </li>
-              <li class="nav-item active">
-                <a class="nav-link" href="https://linkedin.com/in/mathias-heider" target="_blank">LinkedIn</a>
-              </li>
-
-          </ul>
-          <!-- <span class="navbar-text">
-            Navbar text with an inline element
-          </span> -->
-        </div>
-    </nav>
-    <section id="introduction" class="content">
-        <h4 class="titles">About</h4>
-        <div class="h-intro">
-            <div class="selfpic"><img id="selfpic" src="images/mathiaspic.png"></div>
-            <div>
-                <p>
-                    My name is Mathias Heider. I am now a rising senior at University of Delaware studying  Computer Science with a concentration in Data Science and double majoring in Mathematics and Economics with a minor in Political Science. I currently work in the Computational Research and Programming Lab by Professor Sunita Chandrasekaran. 
-                    Using data science and machine learning to solve real world problems is a passion of mine especially when applied to sports analytics, bioinformatics, and computational math. 
-                </p> 
-                <p>
-                    Aside from school and work,  play basketball, go on hikes, read books and, watch anime. 
-                </p>
-                <p>Contact:
-                    <ul>
-                        <li>mheider@udel.edu</li>
-                        <li>+1 (302) 273-1210</li>
-                    </ul>
-                </p>
-<!-- 				<p>Current coursework: 
-				</p> -->
-            </div>
-        </div>
-        
-    </section>
-    <!-- <section id="experiences" class="content">
-      <p>
-        This is the section for experience. 
-      </p>
-    </section> -->
-    <section id="projects" class="content">
-        <h4 class="titles">
-            Research/Projects
-        </h4>
-        <ul>Active Projects
-            <li>
-                <div>
-                    Acute Myeloid Leukmia (AML) and Acute Lymphoblastic Leukemia (ALL) Relapse Prediction, <i>Using machine learning techniques to predict relapse in AML and ALL clinical and gene therapy datasets </i>, w/ Dr. Sunita Chandrasekaran and Mauricio Ferrato
-                </div>
-            </li>
-        </ul>
-		<ul>2022
-			<li>
-				<div>(To appear) Emory REU/RET Computational Mathematics for Data Science, <i>Learning Ordinary Differential Equations through the use of Hamiltonian Inspired Neural Networks.</i>, w/ Dr. Deepanshu Verma, Emma Hayes, Carrie Vanty </div>
-                <a class="btn btn-primary" role="button" href="https://github.com/dehua123/emory-reu-ret-website" target="_blank">GitHub</a>
-
-			</li>
-            <li>
-                <div>
-                    (Course Project) Course Scheduler<i> Using TypeScript and React to make a better Course Planner for Students and Advisors</i>, 
-                    supervised by Dr. Cory Bart w/ Clay Wilfong and Brandon Grier, CISC275: Software Engineering. 
-                </div>
-                <a class="btn btn-primary" role="button" href="https://ud-cisc275-s22.github.io/cis-scheduler-team-13/" target="_blank">Website</a>
-                <a class="btn btn-primary" role="button" href="https://github.com/UD-CISC275-S22/cis-scheduler-team-13" target="_blank">GitHub</a>
-
-            </li>
-            
-		</ul>
-        <ul>2021
-			<li>
-				<div>
-					Meeting the Grand Challenges in Engineering Fellow, <i>Data-driven Polymer Nanocomposite Design via the Materials Genome Initiative (NanoMine Data Curation)</i>, w/ Dr. Catherine Brinson and Dr. Mike Deagan
-				</div>
-				<a class="btn btn-primary" role="button" href="docs/Data Curation Workflow.pdf" target="_blank">Presentation</a>
-				<a class="btn btn-primary" role="button" href="docs/video.mkv" target="_blank">Video Presentation</a>
-
-			</li>
-            <li>
-                <div>
-                    (Course Project) Breast Cancer Prediction Modeling<i> Using Machine Learning to diagnose Breast Cancer</i>, 
-                    supervised Xi Peng w/ Luke Maccariello, James Cooper, Geoffrey Bonnanzio, CISC484: Machine Learning. 
-                </div>
-                <a class="btn btn-primary" role="button" href="docs/Team 8 - ML Presentation.pdf" target="_blank">Presentation</a>
-            </li>
-        </ul>
-        <ul>2020
-            <li>
-                <div>
-                    Center of Composite Material Undergraduate Researcher on TUFF project <i>Using computational techniques to improve throughput and material quality on the TUFF machine line</i> supervised by Dr. Joshua Enszer and Dr. Jenni Buckley w/ Pearce Bragaw, Seth Parker, Jonny Schott, and Tucker Smith
-                    supervised by Dr. Joseph Dietzel
-                </div>
-            </li>
-        </ul>
-        <ul>2019
-            <li>
-                <div>
-                    (Course Project) Williams Olefins Plant Explosion Incident Investigation <i> Used  techniques and  equations to investigate the the Williams Olefins Plant Explosion. </i>
-                </div>
-                <a class="btn btn-primary" role="button" href="docs/_Incident Investigation final.pptx.pdf" target="_blank">Presentation</a>
-
-            </li>
-        </ul>
-    </section>
-	<section class="content" id="coursework">
-		<h4 class="titles">
-			Coursework
-		</h4>
-        Current Coursework
-        <ul>
-            <li>Artificial Intelligence</li>
-            <li>Computational Math </li>
-            <li>Fundamentals of Optimization</li>
-            <li>Senior Thesis</li>
-        </ul>
-        Previous Coursework
-		<ul> Mathematics / Applied Mathematics / Computer Science / Economics
-			<li>Multivariate Calculus</li>
-			<li>Mathematical Economic Analysis (Real Analysis)</li>
-			<li>Ordinary Differential Equations</li>
-			<li>Linear Algebra</li>
-			<li>Probability Theory and Simulation Methods</li>
-            <li>Discrete Mathematics</li>
-            <li>Mathematical Statistics </li>
-            <li>Quantitative Micro & Macro Economics</li>
-			<li>Econometric Methods and Models </li>
-			<li>Machine Learning</li>
-			<li>Object-Oriented Programming</li>
-			<li>Data Structures </li>
-            <li>Introduction to Algorithms</li>
-            <li>Machine Organization & Assembly</li>
-            <li>Logic for Programming</li>
-            <li>Automata Theory </li>
-            <li>Introduction to Software Engineering</li>
-            <li>Database Systems</li>
-
-		</ul>
-        Political Science
-
-		<ul> 
-			<li>Advanced Topics in Media Communication </li>
-			<li>Introduction to American Politics</li>
-			<li>Social Movements in Fiction and Film</li>
-			<li>Research Methods for Political Science</li>
-            <li>Introduction to Political Theory</li>
-            <li>Contemporary Political Ideologies </li>
-		</ul>
-	</section>
-    <section class="content" id="coursework">
-		<h4 class="titles">
-			Clubs
-		</h4>
-        <ul>
-            <li>Competitive Programing Club</li>
-        </ul>
-	</section>
-
-    <div class="footer">
-      &copy; Mathias Heider, 2022
+<header class="top">
+  <div class="row">
+    <div class="avatar" role="img" aria-label="Photo of Mathias Heider"></div>
+    <div class="c">
+      <h1>Mathias Heider</h1>
+      <p class="lede">I am a Ph.D. candidate in Computer Science at the University of Delaware. I build AI systems for manufacturing and materials, and I build them so their answers can be checked.</p>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+  </div>
+  <div class="row">
+    <div class="m"></div>
+    <div class="c">
+      <ul class="contact">
+        <li><a href="mailto:mheider@udel.edu">mheider@udel.edu</a></li>
+        <li><a href="https://github.com/mathheider">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/mathias-heider">LinkedIn</a></li>
+      </ul>
+      <p class="status"><b>I am looking for a 2027 internship</b> (spring or summer) in machine learning, LLM agents or software engineering.</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="m"></div>
+    <nav class="c jump" aria-label="Sections">
+      <a href="#research">Research</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#papers">Papers and talks</a>
+      <a href="#skills">Skills</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section id="about">
+  <h2>About</h2>
+  <div class="row">
+    <div class="m"></div>
+    <div class="c">
+      <p>I am an NSF NRT Fellow at the University of Delaware's Center for Composite Materials, advised by Dr. Srikanth Pilla, and part of AIM for Composites, an Energy Frontier Research Center funded by the U.S. Department of Energy. I passed my Ph.D. preliminary exam in August 2026 and expect to graduate in May 2028.</p>
+      <p>My work sits between machine learning and engineering. One project looks at a photo of a car and works out how each part was manufactured. The other is a service that has read more than ten thousand open-access papers and built a database of 2.27 million material property values from them, with checks that test those values against each other. In both, most of my effort goes into finding out where the model is wrong: benchmarks, preregistered tests, held-out data and audits against human labels.</p>
+      <p>Before the Ph.D. I was an HPC performance engineer at Cornelis Networks. I hold a B.S. in Mathematics and Economics from the University of Delaware (2024).</p>
+    </div>
+  </div>
+</section>
+
+<section id="research">
+  <h2>Research</h2>
+
+  <div class="project">
+    <div class="row">
+      <div class="m"><p>2026 to present</p><p>Paper in preparation</p></div>
+      <div class="c">
+        <h3>An autonomously built composites database, and how to check it</h3>
+        <p>Property data for fiber-reinforced composites sits mostly in research papers: in tables, in sentences and in plots. I built a service that reads the open-access literature and builds the database from it. It is one program on a scheduler, deployed on a Hugging Face Space and writing to PostgreSQL. No person selects, supplies or corrects a query, a document or a value.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="m"><p>One cycle of the service</p></div>
+      <div class="c">
+        <ol class="steps">
+          <li><b>Discover.</b> A discovery pass fills a queue of candidates from OpenAlex, Europe PMC, Semantic Scholar, arXiv, NASA's technical report server and vendor data-sheet pages. The queries come from a rotating set of seeds, a grid of fiber, matrix and property terms, and a language model.</li>
+          <li><b>Download.</b> Only open-access copies are read. Duplicates are removed by DOI, link and file hash, and a file is accepted only if it verifies as a PDF.</li>
+          <li><b>Extract.</b> Gemini reads the text of every page and returns each value as a row: material, grade, matrix, fiber, fiber fraction, property, value as printed, unit, test condition, page and quotation. Code then lists the numbers on each page that no row used, and a second request asks only about those. Values read off figures are stored as estimates.</li>
+          <li><b>Check against the source.</b> No model is involved. Each value is searched for on its cited page, and units are converted to SI and tested against wide ranges. A row that passes is called verified. That means it passed these checks, not that it is known to be correct.</li>
+          <li><b>Store.</b> A row that fails is stored with its reason and is never deleted.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="m"><p>Snapshot of 30&nbsp;Oct&nbsp;2026</p></div>
+      <div class="c">
+        <h4>What one campaign produced</h4>
+        <p>From 18 to 30 October 2026 the service added 10,024 documents in 11.1 days, to 696 it already held. It averaged 899 documents a day and read 3,028 on its best day. Extraction cost 4.1 US cents per paper at Gemini's list price.</p>
+        <div class="tablewrap">
+          <table>
+            <thead><tr><th scope="col">In the database</th><th scope="col">Count</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Documents</th><td class="num">10,720</td></tr>
+              <tr class="now"><th scope="row">Property values</th><td class="num">2,270,377</td></tr>
+              <tr><th scope="row">Values read from text</th><td class="num">1,734,313</td></tr>
+              <tr><th scope="row">Of those, verified against the source</th><td class="num">1,465,233 (84.5%)</td></tr>
+              <tr><th scope="row">Values read off figures, kept as estimates</th><td class="num">536,064</td></tr>
+              <tr><th scope="row">Values for polymers, composites and fibers</th><td class="num">1,374,954, 625,821 and 269,602</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="m"><p>6,181 hand-labeled values in 52 papers, scored 10&nbsp;Nov&nbsp;2026. Matching is automatic.</p></div>
+      <div class="c">
+        <h4>How much of a paper it finds</h4>
+        <p>The database held 81.6% of the labeled values (95% confidence interval 76.9 to 86.1%), and at least 74.0% once chance matches are subtracted. For a property in its vocabulary that a paper states in its own text or tables, outside long series, it held 95.5%. The single-pass extractor it replaced held 36.2% on the same PDFs.</p>
+        <p>This measures coverage, not correctness. The annotators recorded a median of 113 values per paper, and the database holds 231.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="m"><p>In progress. The subject of the paper.</p></div>
+      <div class="c">
+        <h4>Whether a stored value is right</h4>
+        <p>A check against the source has a blind spot. It passes any error that the source itself contains: a unit printed wrongly in the paper, or a number quoted from another specimen's row. To see those, a check has to compare the value with something outside the passage.</p>
+        <p>So I built a knowledge graph from the database, by rules alone, and ten checks that run over it. They compare each value with physical bounds from composite mechanics and with what other papers report for the same material, and every flag cites the rows it used. How much these checks catch, measured on planted errors and against manufacturers' data sheets, is in the paper.</p>
+        <p>A blind human audit of 260 stored values is under way to measure correctness directly.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="project">
+    <div class="row">
+      <div class="m"><p>Ph.D. thesis</p><p>Defended at my preliminary exam, Aug&nbsp;2026</p></div>
+      <div class="c">
+        <h3>Manufacturing Intelligence Pipeline</h3>
+        <p>Choosing how to make a polymer-composite part (injection molding, compression molding, thermoforming, filament winding and 13 other processes) is an expert decision governed by constraints. The pipeline makes that decision from an image and shows its reasons. A vision-language model (VLM) only perceives. A rule engine decides, from rules that are each cited to a textbook or paper.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="m"><p>From photo to answer</p></div>
+      <div class="c">
+        <ol class="steps">
+          <li><b>Detect and segment</b> every component in a photo of a vehicle.</li>
+          <li><b>Perceive.</b> The VLM answers a fixed list of questions about each part: is it hollow, does it have ribs, are there undercuts, what is the production volume.</li>
+          <li><b>Decide.</b> The rule engine turns the answers into a ranking of the 17 processes.</li>
+          <li><b>Explain.</b> Each result lists the observations and the cited rules behind it, so a person can check the reasoning.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="m"><p>Seeded benchmark: 1,000 instances built from 14 expert-labeled components, with simulated perception noise</p></div>
+      <div class="c">
+        <h4>What I defended</h4>
+        <p>Asked directly, a VLM over-weights the most common process. In my first study the model scored injection molding at 217 where a survey of domain experts gave 98, while its second choice matched theirs (57 against 54). Retrieval changed its explanations but not its answers.</p>
+        <p>On the seeded benchmark, on the hard cases where injection molding is not the answer, a direct classifier with that bias scores F1 0.136. The pipeline scores 0.385 and recovers about 75% of what the rules achieve with perfect perception (0.510).</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="m"><p>150 openly licensed photos, then 635 with a preregistered protocol. Aug&nbsp;2026.</p></div>
+      <div class="c">
+        <h4>Then real photos</h4>
+        <p>On real photos the result inverted. The VLM ranked well on its own (F1 0.334 on the hard cases and 0.510 overall), and elimination by rules collapsed (0.086 on the hard cases). The record of observations showed where: 84% of the false eliminations came from two yes/no questions, whether the part is hollow (58%) and whether it needs continuous fiber (26%).</p>
+        <p>I reworded the hollow question and preregistered the rerun on 635 photos, with the line that would count as success written down first. The pipeline rose from 0.086 to 0.198 (95% confidence interval 0.176 to 0.223). That is a real improvement, and it is still under the 0.20 line I had set. So I changed the design.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="m"><p>100 held-out photos, scored once in Oct&nbsp;2026. Every setting was chosen on 535 development photos and frozen first. Labels are by part type; labels for each photo are pending.</p></div>
+      <div class="c">
+        <h4>Rules as evidence</h4>
+        <p>In the first design every rule was a veto, so one misread feature deleted the right answer. On a wound composite tube the VLM reported ribs, probably the winding bands, and the no-ribs rules removed both correct processes.</p>
+        <p>I rewrote the engine so that rules are evidence: each one moves a process up or down the ranking, and nothing is deleted. The rule base grew from 92 to 564 cited rules. I tested every rule I could against the development photos, and 142 point the right way.</p>
+        <div class="tablewrap">
+          <table>
+            <thead>
+              <tr><th scope="col">Method</th><th scope="col">Top pick correct</th><th scope="col">Every correct process in the top 8</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">First design: rules as vetoes</th><td class="num">19%</td><td class="num">11%</td></tr>
+              <tr><th scope="row">Guessing the most common processes</th><td class="num">58%</td><td class="num">56%</td></tr>
+              <tr><th scope="row">VLM alone</th><td class="num">74%</td><td class="num">88%</td></tr>
+              <tr class="now"><th scope="row">Rules as evidence, all 564, with the VLM</th><td class="num">73%</td><td class="num">88%</td></tr>
+              <tr class="now"><th scope="row">Rules as evidence, the 142 tested on photos, with the VLM</th><td class="num">72%</td><td class="num">90%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>The rule engine is back at the level of the VLM, and it adds what the VLM cannot give: a cited reason for every ranking. It is not ahead yet. With 100 photos, the differences at the top are within noise.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="m"><p>In progress</p></div>
+      <div class="c">
+        <h4>What comes next</h4>
+        <p>More rules stopped helping because the questions were the weak point. The VLM said “continuous fiber” for 86% of injection-molded parts, which a photo cannot show, and when asked twice whether a part is hollow it changed its answer on 47% of photos.</p>
+        <p>The follow-up asks about marks a camera can see: a pinch-off seam means blow molding, layer lines mean 3D printing, ejector-pin marks mean injection molding. I set the bar before collecting any data: every correct process in the top 3 on at least 52% of held-out photos, against 47% for the VLM alone.</p>
+        <p>I also fine-tuned a small open model, SmolVLM-256M with LoRA, on the development photos. On the held-out photos every correct process is in its top 8 for 73% of photos, against 40% for the same model without fine-tuning. Its top pick did not improve, and the much larger Gemini model still leads at 88%.</p>
+        <p>Beyond this, I am starting to extend the pipeline to inverse design: inferring the manufacturing process from a material's microstructure.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="project">
+    <div class="row">
+      <div class="m"><p>First-author poster, 2025</p></div>
+      <div class="c">
+        <h3>Can an LLM write a manufacturing dataset?</h3>
+        <p>I generated a manufacturing-process dataset with an LLM and validated it against a survey of domain experts. The model turned out to be a knowledgeable generalist and an unreliable specialist, with gaps that follow the type of component.</p>
+        <p class="fine">M. Heider, A. M. Deshpande, S. A. Pradeep, S. Pilla. Generation of Manufacturing Processes Dataset Using Large Language Models. AIM for Composites EFRC, 2025.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="project">
+    <div class="row">
+      <div class="m"><p>Ongoing</p></div>
+      <div class="c">
+        <h3>InDeS</h3>
+        <p>I lead the design of InDeS, the center's AI-enabled inverse-design software platform, and I maintain the center's GitHub and Hugging Face organizations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <h2>Projects</h2>
+
+  <div class="row">
+    <div class="m"><p>Nov&nbsp;2026 to present</p><p>Team project, private repository</p></div>
+    <div class="c">
+      <h3 class="plain">Verification for a game simulator</h3>
+      <p>A deterministic eight-player game simulator with a Python game core and a TypeScript combat engine. My part is showing that it is right.</p>
+      <ul class="points">
+        <li>I built the verification harness: a benchmark that replays recorded real fights, an auditor that recomputes every hit and attack timer from the rules, invariant, mirror and mutation checks, and CI.</li>
+        <li>The engine now calls the winner of 79.5% of 1,261 real fights, against 72.4% for a board-value baseline. Changes are gated on a paired no-regression test: exact McNemar on winner accuracy and a bootstrap on Brier score.</li>
+        <li>I set up and run the agent loop that drives the work. It runs the checks, files a ticket for each root cause, fixes tickets in parallel waves of coding agents, and gates each pull request on the checks. I review and merge what passes.</li>
+        <li>32 pull requests so far, in a codebase of about 50,000 lines of Python and 35,000 lines of TypeScript with more than 1,400 tests.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="m"><p>Spring 2023</p></div>
+    <div class="c">
+      <h3 class="plain">Parallel programming in C</h3>
+      <p>Coursework: image convolution with OpenMP and, with a team, an n-body simulation in CUDA. <a href="https://github.com/mathheider/CISC372_picProject">Image convolution code</a></p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="m"><p>2022</p></div>
+    <div class="c">
+      <h3 class="plain">Course Scheduler</h3>
+      <p>A course planner for students and advisors in TypeScript and React, built with Clay Wilfong and Brandon Grier. <a href="https://ud-cisc275-s22.github.io/cis-scheduler-team-13/">Site</a>, <a href="https://github.com/UD-CISC275-S22/cis-scheduler-team-13">code</a></p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="m"><p>2021</p></div>
+    <div class="c">
+      <h3 class="plain">Breast cancer prediction</h3>
+      <p>Machine-learning course project on diagnosing breast cancer. <a href="docs/Team%208%20-%20ML%20Presentation.pdf">Slides</a></p>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <h2>Experience</h2>
+
+  <div class="row">
+    <div class="m"><p>Jun&nbsp;2023 to Mar&nbsp;2024</p></div>
+    <div class="c">
+      <h3 class="plain">HPC Performance Engineer <span class="where">at Cornelis Networks</span></h3>
+      <ul class="points">
+        <li>Optimized Microsoft and Intel machine-learning and computer-vision models for the Omni-Path Architecture: 42% better performance scalability and 24% faster training on larger distributed workloads.</li>
+        <li>Adapted and parallelized AI/ML workloads for CPU/GPU-accelerated hardware, cutting test time by 18%, and validated execution on the Omni-Path fabric.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="m"><p>May&nbsp;2022 to Feb&nbsp;2023</p></div>
+    <div class="c">
+      <h3 class="plain">NSF REU Researcher <span class="where">at Emory University</span></h3>
+      <p>Hamiltonian-inspired neural networks, with Dr. Deepanshu Verma and Dr. Lars Ruthotto. Instead of learning a system's motion directly, the network learns its Hamiltonian, the energy function, and the motion follows from it. I built the networks in PyTorch and compared them with residual networks on spring-mass and two-body dynamics. Stepping with symplectic Verlet integration matched the accuracy of fourth-order Runge-Kutta at about 4.5 times lower compute cost. I presented the work at the Joint Mathematics Meetings in 2023. <a href="https://github.com/mathheider/Learn-ODEs-HINNs">Code</a></p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="m"><p>Aug&nbsp;2021 to Jul&nbsp;2023</p></div>
+    <div class="c">
+      <h3 class="plain">Undergraduate Researcher <span class="where">at the Computational Research and Programming Lab, University of Delaware</span></h3>
+      <p>Senior thesis with Dr. Sunita Chandrasekaran: predicting the vital status of acute myeloid leukemia patients from TARGET clinical and gene-expression data.</p>
+      <ul class="points">
+        <li>Matched 716 patients across the two sources and reduced 58,451 gene features to 17,817.</li>
+        <li>Compared three feature-selection methods (SHAP, PCA, differential expression) across three classifiers (random forest, gradient boosting, LightGBM), with 5-fold cross-validation, a held-out test set, a random-feature baseline, and balanced against unbalanced training. SHAP with a random forest was strongest.</li>
+        <li>AUC was misleading on this imbalanced cohort, so I reported sensitivity and specificity with it.</li>
+        <li>Moved training to the lab's pipeline on the DARWIN HPC cluster, which cut run time 6 to 7 times.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="m"><p>2021</p></div>
+    <div class="c">
+      <h3 class="plain">NSF REU Researcher <span class="where">at Duke University</span></h3>
+      <p>Meeting the Grand Challenges in Engineering Fellow in the Brinson Lab. I built an automated pipeline that curates polymer-nanocomposite data for NanoMine, a materials data resource under the Materials Genome Initiative. <a href="docs/Data%20Curation%20Workflow.pdf">Slides</a></p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="m"><p>2020</p></div>
+    <div class="c">
+      <h3 class="plain">Undergraduate Researcher <span class="where">at the Center for Composite Materials, University of Delaware</span></h3>
+      <p>Computational methods to raise throughput and material quality on the TuFF composite line.</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="m"><p>Aug&nbsp;2021 to Jun&nbsp;2023</p></div>
+    <div class="c">
+      <h3 class="plain">Teaching Assistant, Data Structures <span class="where">at the University of Delaware</span></h3>
+      <p>Ran a lab section, held office hours and graded.</p>
+    </div>
+  </div>
+</section>
+
+<section id="papers" class="tight">
+  <h2>Papers and talks</h2>
+  <div class="row">
+    <div class="m"><p>In preparation</p></div>
+    <div class="c"><p>An autonomously built composites database, and borrowed-input checks that validate it. Preprint expected late 2026.</p></div>
+  </div>
+  <div class="row">
+    <div class="m"><p>In preparation</p></div>
+    <div class="c"><p>Manufacturing Intelligence Pipeline: vision-language perception and symbolic rules for manufacturing-process identification.</p></div>
+  </div>
+  <div class="row">
+    <div class="m"><p>Poster, 2025</p></div>
+    <div class="c"><p>M. Heider, A. M. Deshpande, S. A. Pradeep, S. Pilla. Generation of Manufacturing Processes Dataset Using Large Language Models. AIM for Composites EFRC.</p></div>
+  </div>
+  <div class="row">
+    <div class="m"><p>Talk, 2023</p></div>
+    <div class="c"><p>Predicting Dynamics of ODEs using Residual and Hamiltonian-Inspired Neural Networks. Joint Mathematics Meetings.</p></div>
+  </div>
+</section>
+
+<section id="skills" class="tight">
+  <h2>Skills and awards</h2>
+  <div class="row">
+    <div class="m"><p>Languages</p></div>
+    <div class="c"><p>Python, C++, C, SQL, TypeScript, MATLAB</p></div>
+  </div>
+  <div class="row">
+    <div class="m"><p>Machine learning</p></div>
+    <div class="c"><p>PyTorch, Hugging Face, scikit-learn, XGBoost and LightGBM, SHAP, NumPy and pandas; VLM fine-tuning; LLM agents (Gemini API, agentic coding loops); benchmark and evaluation design</p></div>
+  </div>
+  <div class="row">
+    <div class="m"><p>Systems</p></div>
+    <div class="c"><p>MPI, OpenMP, CUDA, HPC clusters, AWS, PostgreSQL, SQLite, Git, GitHub Actions CI, pytest</p></div>
+  </div>
+  <div class="row">
+    <div class="m"><p>Awards</p></div>
+    <div class="c">
+      <ul class="plainlist">
+        <li>NSF NRT Fellowship</li>
+        <li>University of Delaware Academic Enrichment Award (research funding)</li>
+        <li>Second place, Emory Mathematics Department research competition</li>
+        <li>Meeting the Grand Challenges Fellow (Duke and NSF)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="outside">
+  <h2>Outside the lab</h2>
+  <div class="row">
+    <div class="m"></div>
+    <div class="c">
+      <p>I compete in Teamfight Tactics. In 2026 my team finished in the top 8 of the Esports World Cup (4v4), where I was both a player and the team manager. I also founded a paid coaching business and run it end to end: curricula, pricing, client acquisition and the websites.</p>
+      <p>Otherwise: basketball, hiking and books.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  Mathias Heider, Newark, Delaware. Updated November 2026.
+</footer>
+
+</div>
 </body>
 </html>
